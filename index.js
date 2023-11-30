@@ -2,12 +2,11 @@ const dotenv = require('dotenv').config()
 const express = require('express')
 const cors = require('cors')
 const bodyParser = require('body-parser')
-// const AuthRoutes = require('./src/routes/auth.routes')
 
 const HandleErrorMessage = require('./src/middleware/validatorMessage')
 const dbConnection = require('./src/config/dbConfig')
-const { publicRoutes } = require('./src/routes/indexRoutes')
-// const { checkUserRole } = require('./src/middleware/checkUserRole')
+const { publicRoutes, adminRoutes } = require('./src/routes/indexRoutes')
+const { userAuth } = require('./src/middleware/auth')
 
 
 const app = express()
@@ -28,10 +27,9 @@ app.use((req, res, next) => {
     );
     next();
 })
-app.use('/v1/public', publicRoutes)
-// app.use('/api/admin', checkUserRole(Roles.ADMIN))
-// app.use('/api/admin', adminRoutes);
-// app.use('/api/auth', authRoutes)
+app.all('/api/admin/*', userAuth)
+app.use('/api/public', publicRoutes)
+app.use('/api/admin', adminRoutes)
 
 app.get('/', (req, res) => {
     res.status(200).json({status:"Success", message:"Server Started Successfully"})

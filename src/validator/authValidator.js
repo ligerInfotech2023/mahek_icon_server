@@ -18,6 +18,23 @@ module.exports = {
         })
     }),
 
+    loginValidator: () => celebrate({
+        [Segments.BODY]: Joi.object().keys({
+            input: Joi.string().required().custom((value,helpers) => {
+                //Check if input is valid valid email or contact_number
+                const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+                const isValidContact = /^[0-9]+$/.test(value)
+
+                if(!isValidEmail && !isValidContact){
+                    return helpers.error('any.invalid')
+                }
+                return value.toString();
+            }).label('Email or Contact number is must be valid value in input field'),
+            password: Joi.string().required().label('Password is required')
+        })
+
+    })
+
 }
 
 

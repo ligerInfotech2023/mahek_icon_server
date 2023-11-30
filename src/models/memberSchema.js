@@ -13,6 +13,9 @@ const memberSchema = new mongoose.Schema(
         owner_name_2:{
             type:String
         },
+        email:{
+            type: String
+        },
         contact_number_1:{
             type:Number,
             required:true
@@ -25,7 +28,7 @@ const memberSchema = new mongoose.Schema(
             required:true
         },
         total_shop_size:{
-            type:Number
+            type:String
         },
         member_fee:{
             type:Number

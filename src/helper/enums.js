@@ -11,7 +11,6 @@ module.exports ={
     },
     Permission: {
         ALL: "all",
-        USER_DETAIL: "user:detail",
         MANAGE_USER: "manage_user",
         READ_ONLY: "read_only",
     },

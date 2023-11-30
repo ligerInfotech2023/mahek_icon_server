@@ -11,8 +11,14 @@ module.exports = {
     ERROR_INVALID_TOKEN: "Invalid token",
     ERROR_GENERATE_TOKEN: "Error occuring while generating token",
     ERR_CREATE:"Unable to create, please try again later",
-    ERR_INVALID_CRED: "Invalid email or password",
+    ERR_INVALID_CRED: "Invalid password",
     ERR_INCORRECT_PASS: "The Password you have entered is incorrect.",
     ACC_NOT_ACTIVE: "Your account is not active",
-    USER_NOT_FOUND : "User not found"
+    USER_NOT_FOUND : "User not found",
+    INTERNAL_SERVER_ERROR: "Internal Server Error",
+    MEMBER_EXISTS: 'Member Already Exists',
+    PERMISSION_DENIED: "Permission denied you are not authorized to perform this action",
+    MEMBER_NOT_FOUND: "Member not found",
+    UPDATE_FAILED: "Update failed",
+    NO_DATA: "No data to show"
 }

@@ -11,7 +11,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.2",
     "celebrate": "^15.0.1",
     "cors": "^2.8.5",
@@ -19,7 +18,8 @@
     "express": "^4.18.2",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^7.5.0",
-    "passport": "^0.6.0"
+    "passport": "^0.6.0",
+    "pbkdf2-password-hash": "^3.1.1"
   },
   "devDependencies": {
     "nodemon": "^3.0.1"
