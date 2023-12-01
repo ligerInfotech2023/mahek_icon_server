@@ -202,4 +202,62 @@ const showOneMember = async(req, res, next) => {
     }
 }
 
-module.exports = {addNewMember,editExistingMember, showMemberList, showOneMember}
+const memberReport = async(req, res, next) => {
+    try{
+        const {type, year} = req.query;
+
+        if(!type){
+            return res.status(400).json({status:false, message: 'Report type is required'})
+        }
+        const validReportTypes = [
+            'member_fee',
+            'maintenance',
+            'transfer_fee',
+            'land_amount',
+            'construction_fund',
+            'n_a_conversion_amount',
+            'deposit',
+            'share_capital'
+        ]
+        if(!validReportTypes.includes(type)){
+            return res.status(400).json({status:false, message: `Invalid report type: ${type}`})
+        }
+
+        const yearFilter = year ? 
+        {created_date: 
+            {
+                $gte: new Date(`${year}-01-01T00:00:00.000Z`), 
+                $lt: new Date(`${Number(year) + 1}-01-01T00:00:00.000Z`)
+            }
+        } : {}
+        const queryFilter = { ...yearFilter}
+        const result = await MemberSchema.find(queryFilter, `-_id shop_number ${type} pending_${type}`)
+        
+        if(result.length === 0){
+            return res.status(404).json({status:false, message:`No records found for ${type} in ${year} year`})
+        }
+
+        const countTotal = result.reduce((acc,item) => {
+                acc.totalAmount += (item[type] || 0);
+                acc.totalPendingAmount += (item[`pending_${type}`] || 0)
+                return acc
+            },
+            {totalAmount: 0, totalPendingAmount: 0}
+            
+        );
+        
+        const TotalAmount = `Total_${type}`
+        const TotalPendingAmount = `Total_pending_${type}`
+        const showTotalCount = {
+            [TotalAmount]: countTotal.totalAmount,
+            [TotalPendingAmount]: countTotal.totalPendingAmount
+        }
+        return res.status(200).json({status:true, message:'Report fetched successfully', data: result, total: showTotalCount })
+
+    }catch(err){
+        console.log('Error while check member report-> ',err);
+        return res.status(500).json({status:false, message: errorMessage.INTERNAL_SERVER_ERROR, error: err.message})
+    }
+}
+
+module.exports = {addNewMember,editExistingMember, showMemberList, showOneMember, memberReport}
