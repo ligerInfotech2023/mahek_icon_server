@@ -76,7 +76,7 @@ const editExistingMember = async(req, res, next) => {
         }
         const findMember = await MemberSchema.findOne({_id:id})
         if(!findMember || findMember.length === 0){
-            return res.status(400).send({status:false, message: errorMessage.MEMBER_NOT_FOUND})
+            return res.status(404).send({status:false, message: errorMessage.MEMBER_NOT_FOUND})
         }else{
             const updateObject = {
                 shop_number: body && body.shop_number ? body.shop_number : null, 
@@ -140,7 +140,6 @@ const showMemberList = async(req, res, next) => {
                 'email',
                 'shop_size'
                ]
-
                let newSearchString;
 
                if(search.includes('*')){

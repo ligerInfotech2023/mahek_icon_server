@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const { SquareRateType } = require('../helper/enums');
-SquareRateType
 const squareRateSchema = new mongoose.Schema(
     {
         name:{
@@ -11,7 +10,13 @@ const squareRateSchema = new mongoose.Schema(
             enum: Object.values(SquareRateType)
         },
         sqft_rate:{
-            type:String
+            type: Number,
+            get: (value) => {
+                return `${value} ₹`
+            },
+            set: (value) =>{
+                return parseFloat(value)
+            }
         },
         effective_start_date:{
             type:Date
@@ -23,7 +28,7 @@ const squareRateSchema = new mongoose.Schema(
             type:Date,
         },
         collection_end_date:{
-            type:Number
+            type:Date
         }
     }, 
     {

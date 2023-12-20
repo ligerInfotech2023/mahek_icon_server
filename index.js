@@ -7,13 +7,17 @@ const HandleErrorMessage = require('./src/middleware/validatorMessage')
 const dbConnection = require('./src/config/dbConfig')
 const { publicRoutes, adminRoutes } = require('./src/routes/indexRoutes')
 const { userAuth } = require('./src/middleware/auth')
-
+const path = require('path');
 
 const app = express()
 
 app.use(cors());
 app.use(express.json())
 app.use(bodyParser.json())
+
+// Set views directory and view engine
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'html');
 
 app.use((req, res, next) => {
     res.setHeader("Access-Control-Alllow-Origin", "*")

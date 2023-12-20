@@ -5,19 +5,16 @@ const paymentReceipSchema = new mongoose.Schema(
     {
         pay_date:{
             type:Date,
-            default: Date.now(),
-            required:true
         },
         receipt_number:{
             type: Number
         },
         shop_number:{
-            type:mongoose.Schema.Types.ObjectId,
-            ref:"tbl_member",
+            type:String,
             required:true
         },
         total_square_feet:{
-            type:Number
+            type:String
         },
         owner_name:{
             type:String
@@ -40,8 +37,14 @@ const paymentReceipSchema = new mongoose.Schema(
         n_a_conversion_amount:{
             type:Number
         },
+        maintenance_amount:{
+            type:Number
+        },
         deposit:{
             type:Number
+        },
+        penalty:{
+            type: Number
         },
         total_amount:{
             type:Number
@@ -54,16 +57,16 @@ const paymentReceipSchema = new mongoose.Schema(
             enum: Object.values(PaymentType)
         },
         transaction_number:{
-            type:Number
+            type:String
         },
         bank_name:{
             type:String
         },
         cheque_number:{
-            type:Number
+            type:String
         },
         account_number:{
-            type:Number
+            type:String
         },
         cash_amount:{
             type:Number
@@ -73,6 +76,9 @@ const paymentReceipSchema = new mongoose.Schema(
         },
         receiver_name:{
             type:String
+        },
+        orderId:{
+            type: String
         }
     },
     {
