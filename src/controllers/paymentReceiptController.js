@@ -5,6 +5,7 @@ const errorMessage = require("../utils/errorMessage");
 const Razorpay = require('razorpay');
 const successMessage = require("../utils/successMessage");
 const crypto = require("crypto");
+const PaymentRecordSchema = require("../models/paymentRecordSchema");
 
 const razorpay = new Razorpay({
     key_id: process.env.RAZORPAY_KEY_ID,
@@ -167,6 +168,21 @@ const verifyPayment = async(req, res) => {
         
         
         if(razorpay_signature === generated_signature){
+
+            const findPaymentReceiptData = await PaymentReceiptSchema.findOne({orderId:order_id})
+            if(findPaymentReceiptData){
+                const addPaymentRecord = {
+                    paymentReceiptId: findPaymentReceiptData._id,
+                    orderId: findPaymentReceiptData.orderId,
+                    paymentId: payment_id,
+                    razorpaySignature: razorpay_signature,
+                    receiptNumber: findPaymentReceiptData.receipt_number,
+                    amount: findPaymentReceiptData.total_amount,
+                    paymentMethod: findPaymentReceiptData.payment_type,
+                    paymentStatus: 'complete'
+                }
+               await PaymentRecordSchema.create(addPaymentRecord)
+            }
             res.status(200).json({status:true, message:"Payment has been verified"})
         }else{
             res.status(402).json({status:false, message:"Payment verification failed!"})

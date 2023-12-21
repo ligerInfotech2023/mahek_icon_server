@@ -3,8 +3,7 @@ const mongoose = require('mongoose');
 const paymentRecordSchema = new mongoose.Schema(
     {
         paymentReceiptId:{
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "tbl_payment_receipt"
+            type: String,
         },
         orderId:{
             type: String
@@ -21,9 +20,12 @@ const paymentRecordSchema = new mongoose.Schema(
         amount:{
             type: Number,
         },
+        paymentMethod:{
+            type:String
+        },
         paymentStatus:{
             type: String,
-            default: 'Pending'
+            default: 'pending'
         }
     },
     {
